@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad vs Grupos - Comparación WhatsApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .phone-section {
+            text-align: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .phone-section.organized {
+            animation-delay: 0.2s;
+        }
+
+        .phone-section.messy {
+            animation-delay: 0.4s;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .section-title.good {
+            color: #128C7E;
+        }
+
+        .section-title.bad {
+            color: #dc3545;
+        }
+
+        .section-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .phone {
+            width: 360px;
+            height: 720px;
+            background: #000;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+
+        .phone:hover {
+            transform: scale(1.02);
+        }
+
+        .phone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            background: #128C7E;
+            padding: 30px 20px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .whatsapp-header {
+            background: #128C7E;
+            padding: 15px 20px;
+            color: #fff;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .tab-bar {
+            background: #128C7E;
+            display: flex;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            position: relative;
+        }
+
+        .tab.active {
+            color: #fff;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #fff;
+        }
+
+        .chat-list {
+            background: #fff;
+            height: calc(100% - 140px);
+            overflow-y: auto;
+        }
+
+        /* COMUNIDAD ORGANIZADA */
+        .community-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            animation: slideInLeft 0.5s ease-out;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .community-item:hover {
+            background: #f5f5f5;
+        }
+
+        .community-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .community-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .community-name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #000;
+        }
+
+        .subgroups {
+            margin-left: 62px;
+            padding-left: 15px;
+            border-left: 2px solid #e0e0e0;
+        }
+
+        .subgroup {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .subgroup-icon {
+            width: 8px;
+            height: 8px;
+            background: #128C7E;
+            border-radius: 50%;
+        }
+
+        .notification-badge {
+            background: #25D366;
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .muted-icon {
+            color: #999;
+            font-size: 16px;
+        }
+
+        /* GRUPOS DESORDENADOS */
+        .messy-chat {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: shake 0.5s ease-out;
+            cursor: pointer;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .messy-chat:hover {
+            background: #f5f5f5;
+        }
+
+        .messy-chat::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #dc3545;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .messy-chat:hover::before {
+            opacity: 1;
+        }
+
+        .group-avatar {
+            width: 50px;
+            height: 50px;
+            background: #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .messy-chat:nth-child(odd) .group-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .messy-chat:nth-child(even) .group-avatar {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .messy-chat:nth-child(3n) .group-avatar {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .chat-info {
+            flex: 1;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #000;
+            margin-bottom: 3px;
+        }
+
+        .last-message {
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .unread-badge {
+            background: #25D366;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .chaos-indicator {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: #fff;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            animation: pulse 2s infinite;
+        }
+
+        /* VENTAJAS Y DESVENTAJAS */
+        .pros-cons {
+            margin-top: 30px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .pros-cons h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .pros-cons.good h3 {
+            color: #128C7E;
+        }
+
+        .pros-cons.bad h3 {
+            color: #dc3545;
+        }
+
+        .point {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .point-icon {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .point-icon.check {
+            color: #25D366;
+            font-size: 18px;
+        }
+
+        .point-icon.cross {
+            color: #dc3545;
+            font-size: 18px;
+        }
+
+        /* ANIMACIONES */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+            20%, 40%, 60%, 80% { transform: translateX(3px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .phone {
+                width: 320px;
+                height: 640px;
+            }
+        }
+
+        /* Scroll personalizado */
+        .chat-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chat-list::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+
+        .chat-list::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* ESTILOS PARA LA GUÍA PASO A PASO */
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .step-card {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease-out both;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #25D366, #128C7E);
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .step-content {
+            color: #000;
+        }
+
+        .step-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #075E54;
+            font-weight: 700;
+        }
+
+        .step-description {
+            color: #555;
+            margin-bottom: 15px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .step-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .step-list li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .step-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #25D366;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .tip-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tip-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .steps-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Propuesta: Organización de Grupos WhatsApp</h1>
+            <p class="subtitle">Segurilab - Migración de grupos individuales a Comunidades de WhatsApp para mejorar la comunicación interna y reducir el caos de notificaciones</p>
+        </div>
+
+        <div class="comparison-container">
+            <!-- OPCIÓN ORGANIZADA: COMUNIDAD -->
+            <div class="phone-section organized">
+                <h2 class="section-title good">✅ Con Comunidad</h2>
+                <p class="section-subtitle">Todo organizado bajo un mismo tema</p>
+                
+                <div class="phone">
+                    <div class="screen">
+                        <div class="status-bar">
+                            <span>9:41</span>
+                            <span>📶 📡 🔋</span>
+                        </div>
+                        
+                        <div class="whatsapp-header">
+                            <div class="header-title">WhatsApp</div>
+                        </div>
+                        
+                        <div class="tab-bar">
+                            <div class="tab active">Comunidades</div>
+                            <div class="tab">Chats</div>
+                            <div class="tab">Novedades</div>
+                        </div>
+                        
+                        <div class="chat-list">
+                            <!-- COMUNIDAD 1 - SEGURILAB -->
+                            <div class="community-item" style="animation-delay: 0.1s;">
+                                <div class="community-header">
+                                    <div class="community-icon">🏥</div>
+                                    <div>
+                                        <div class="community-name">Segurilab</div>
+                                    </div>
+                                </div>
+                                <div class="subgroups">
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>📢 Anuncios Generales</span>
+                                    </div>
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>💼 Equipo Comercial</span>
+                                    </div>
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>🔬 Laboratorio</span>
+                                    </div>
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>💻 Sistemas/IT</span>
+                                    </div>
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>☕ Social</span>
+                                        <span class="muted-icon">🔕</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- COMUNIDAD 2 - PROYECTOS -->
+                            <div class="community-item" style="animation-delay: 0.2s;">
+                                <div class="community-header">
+                                    <div class="community-icon">📊</div>
+                                    <div>
+                                        <div class="community-name">Proyectos 2026</div>
+                                    </div>
+                                </div>
+                                <div class="subgroups">
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>📋 Coordinación</span>
+                                        <span class="notification-badge">3</span>
+                                    </div>
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>🏗️ Implementación</span>
+                                    </div>
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>📈 Reportes</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- COMUNIDAD 3 - SUCURSALES -->
+                            <div class="community-item" style="animation-delay: 0.3s;">
+                                <div class="community-header">
+                                    <div class="community-icon">🏢</div>
+                                    <div>
+                                        <div class="community-name">Sucursales</div>
+                                    </div>
+                                </div>
+                                <div class="subgroups">
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>📍 Quito</span>
+                                    </div>
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>📍 Guayaquil</span>
+                                    </div>
+                                    <div class="subgroup">
+                                        <div class="subgroup-icon"></div>
+                                        <span>📍 Cuenca</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VENTAJAS -->
+                <div class="pros-cons good">
+                    <h3>✅ Ventajas</h3>
+                    <div class="point">
+                        <span class="point-icon check">✓</span>
+                        <span>Todo organizado por tema en un solo lugar</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon check">✓</span>
+                        <span>Menos notificaciones: silencias todo o solo lo social</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon check">✓</span>
+                        <span>Fácil encontrar información: sabes exactamente dónde buscar</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon check">✓</span>
+                        <span>Nuevos miembros se unen a toda la comunidad de una vez</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon check">✓</span>
+                        <span>Anuncios importantes llegan a todos desde un solo lugar</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon check">✓</span>
+                        <span>Vista limpia y profesional</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OPCIÓN DESORDENADA: GRUPOS SUELTOS -->
+            <div class="phone-section messy">
+                <h2 class="section-title bad">❌ Sin Comunidad</h2>
+                <p class="section-subtitle">Grupos sueltos por todos lados</p>
+                
+                <div class="phone">
+                    <div class="chaos-indicator">⚠️</div>
+                    <div class="screen">
+                        <div class="status-bar">
+                            <span>9:41</span>
+                            <span>📶 📡 🔋</span>
+                        </div>
+                        
+                        <div class="whatsapp-header">
+                            <div class="header-title">WhatsApp</div>
+                        </div>
+                        
+                        <div class="tab-bar">
+                            <div class="tab">Comunidades</div>
+                            <div class="tab active">Chats</div>
+                            <div class="tab">Novedades</div>
+                        </div>
+                        
+                        <div class="chat-list">
+                            <div class="messy-chat" style="animation-delay: 0.1s;">
+                                <div class="group-avatar">💼</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">Comercial Segurilab 2026</div>
+                                    <div class="last-message">Carlos: Resultados del mes?</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">12:45</div>
+                                    <div class="unread-badge">23</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.15s;">
+                                <div class="group-avatar">📢</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">ANUNCIOS SEGURILAB</div>
+                                    <div class="last-message">Admin: Reunión mañana 9am</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">11:20</div>
+                                    <div class="unread-badge">5</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.2s;">
+                                <div class="group-avatar">🔬</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">Laboratorio - Coordinación</div>
+                                    <div class="last-message">María: Muestras listas...</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">10:15</div>
+                                    <div class="unread-badge">47</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.25s;">
+                                <div class="group-avatar">☕</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">Grupo Social Segurilab</div>
+                                    <div class="last-message">😂😂😂 meme.jpg</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">09:30</div>
+                                    <div class="unread-badge">156</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.3s;">
+                                <div class="group-avatar">💻</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">IT - Sistemas Segurilab</div>
+                                    <div class="last-message">Luis: Servidor caído urgente</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">Ayer</div>
+                                    <div class="unread-badge">12</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.35s;">
+                                <div class="group-avatar">📊</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">Proyecto Medesp</div>
+                                    <div class="last-message">Ana: Update del sistema</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">Ayer</div>
+                                    <div class="unread-badge">89</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.4s;">
+                                <div class="group-avatar">🏥</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">Médicos - Segurilab</div>
+                                    <div class="last-message">Dr. Pérez: Protocolo nuevo</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">Ayer</div>
+                                    <div class="unread-badge">34</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.45s;">
+                                <div class="group-avatar">📍</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">Sucursal Quito</div>
+                                    <div class="last-message">Sofía: Inventario actualizado</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">07/02</div>
+                                    <div class="unread-badge">67</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.5s;">
+                                <div class="group-avatar">📍</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">Sucursal Guayaquil</div>
+                                    <div class="last-message">Jorge: Pedido urgente</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">05/02</div>
+                                    <div class="unread-badge">201</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.55s;">
+                                <div class="group-avatar">📋</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">Segurilab - Administración</div>
+                                    <div class="last-message">Excel adjunto (3.5 MB)</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">03/02</div>
+                                    <div class="unread-badge">8</div>
+                                </div>
+                            </div>
+
+                            <div class="messy-chat" style="animation-delay: 0.6s;">
+                                <div class="group-avatar">🏢</div>
+                                <div class="chat-info">
+                                    <div class="chat-name">SEGURILAB - Comunicados</div>
+                                    <div class="last-message">RR.HH: Nueva política de...</div>
+                                </div>
+                                <div class="chat-meta">
+                                    <div class="time">01/02</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DESVENTAJAS -->
+                <div class="pros-cons bad">
+                    <h3>❌ Desventajas</h3>
+                    <div class="point">
+                        <span class="point-icon cross">✗</span>
+                        <span>Grupos mezclados: trabajo y memes todo junto</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon cross">✗</span>
+                        <span>Explosión de notificaciones: 500+ mensajes sin leer</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon cross">✗</span>
+                        <span>No sabes dónde preguntar: "¿En qué grupo va esto?"</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon cross">✗</span>
+                        <span>Pierdes información importante entre el spam</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon cross">✗</span>
+                        <span>Nuevos miembros: hay que agregarlos a 10 grupos uno por uno</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon cross">✗</span>
+                        <span>Vista caótica: scroll infinito para encontrar algo</span>
+                    </div>
+                    <div class="point">
+                        <span class="point-icon cross">✗</span>
+                        <span>La gente silencia TODO y se pierde anuncios importantes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GUÍA PASO A PASO -->
+        <div style="margin-top: 60px; padding: 50px; background: linear-gradient(135deg, #128C7E 0%, #075E54 100%); border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); color: #fff;">
+            <h2 style="font-size: 2.2rem; margin-bottom: 15px; text-align: center;">📋 ¿Cómo hacer el cambio?</h2>
+            <p style="text-align: center; margin-bottom: 50px; opacity: 0.9; font-size: 1.1rem;">Sigue estos pasos para migrar de grupos sueltos a una Comunidad organizada</p>
+            
+            <div class="steps-container">
+                <div class="step-card" style="animation-delay: 0.1s;">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Crear la Comunidad</h3>
+                        <p class="step-description">Abre WhatsApp → Pestaña "Comunidades" → "Nueva comunidad"</p>
+                        <ul class="step-list">
+                            <li>Nombre: "Segurilab" (o según el área/departamento)</li>
+                            <li>Descripción: "Comunicación oficial Segurilab"</li>
+                            <li>Sube el logo de Segurilab como ícono</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-card" style="animation-delay: 0.2s;">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Crear el Grupo de Anuncios</h3>
+                        <p class="step-description">WhatsApp crea automáticamente un grupo de "Anuncios" donde SOLO admins pueden escribir</p>
+                        <ul class="step-list">
+                            <li>Úsalo para comunicados importantes</li>
+                            <li>Políticas de la empresa</li>
+                            <li>Reuniones y eventos obligatorios</li>
+                            <li>Todo lo que TODOS deben ver</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-card" style="animation-delay: 0.3s;">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Agregar Grupos Existentes</h3>
+                        <p class="step-description">Vincula tus grupos actuales a la comunidad</p>
+                        <ul class="step-list">
+                            <li>Abre cada grupo → Menú (⋮) → "Vincular a comunidad"</li>
+                            <li>Selecciona tu comunidad</li>
+                            <li>Los miembros del grupo se agregan automáticamente a la comunidad</li>
+                            <li>El grupo mantiene su historial y configuración</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-card" style="animation-delay: 0.4s;">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Crear Grupos Nuevos (opcional)</h3>
+                        <p class="step-description">Si necesitas grupos adicionales dentro de la comunidad</p>
+                        <ul class="step-list">
+                            <li>Desde la comunidad → "Agregar grupo"</li>
+                            <li>Crea grupos específicos (ej: "Social", "Proyectos")</li>
+                            <li>Los miembros pueden elegir a cuáles unirse</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-card" style="animation-delay: 0.5s;">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Comunicar el Cambio</h3>
+                        <p class="step-description">Informa a tu equipo sobre la nueva estructura</p>
+                        <ul class="step-list">
+                            <li>Explica qué es una comunidad y sus beneficios</li>
+                            <li>Envía un anuncio por el grupo de Anuncios</li>
+                            <li>Da una guía rápida de qué grupo usar para qué tema</li>
+                            <li>Responde dudas iniciales</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="step-card" style="animation-delay: 0.6s;">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Limpiar Grupos Duplicados</h3>
+                        <p class="step-description">Elimina grupos redundantes o innecesarios</p>
+                        <ul class="step-list">
+                            <li>Identifica grupos que ya están en la comunidad</li>
+                            <li>Avisa antes de eliminar cualquier grupo</li>
+                            <li>Archiva o elimina los grupos viejos</li>
+                            <li>Mantén solo los grupos dentro de la comunidad</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 50px; padding: 30px; background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+                <h3 style="font-size: 1.5rem; margin-bottom: 20px; text-align: center;">💡 Consejos Pro</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="tip-card">
+                        <div style="font-size: 24px; margin-bottom: 10px;">⏱️</div>
+                        <strong>Tiempo estimado:</strong> 15-30 minutos para todo el proceso
+                    </div>
+                    <div class="tip-card">
+                        <div style="font-size: 24px; margin-bottom: 10px;">👥</div>
+                        <strong>Quién lo hace:</strong> Solo necesitas ser admin de los grupos
+                    </div>
+                    <div class="tip-card">
+                        <div style="font-size: 24px; margin-bottom: 10px;">🔔</div>
+                        <strong>Notificaciones:</strong> Permite silenciar grupos sociales, nunca Anuncios
+                    </div>
+                    <div class="tip-card">
+                        <div style="font-size: 24px; margin-bottom: 10px;">📊</div>
+                        <strong>Resultado:</strong> 70% menos notificaciones molestas
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 60px; padding: 40px; background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
+            <h2 style="font-size: 2rem; margin-bottom: 20px; color: #000;">¿Implementamos esta organización en Segurilab?</h2>
+            <p style="color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px;">La diferencia es clara: menos estrés, mejor comunicación y equipo más productivo. Podemos hacer la migración en menos de 30 minutos.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <button onclick="scrollToSteps()" style="background: #128C7E; color: #fff; border: none; padding: 15px 40px; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                    Ver plan de migración
+                </button>
+                <button onclick="alert('🤔 Entendemos que el cambio puede dar pereza, pero tu equipo te lo agradecerá. Menos notificaciones = más productividad.')" style="background: #666; color: #fff; border: none; padding: 15px 40px; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s;">
+                    Seguir con el caos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animación de scroll suave
+        document.querySelectorAll('.chat-list').forEach(chatList => {
+            let isScrolling = false;
+            
+            const autoScroll = () => {
+                if (!isScrolling) {
+                    chatList.scrollTop += 1;
+                    if (chatList.scrollTop >= chatList.scrollHeight - chatList.clientHeight - 50) {
+                        setTimeout(() => {
+                            chatList.scrollTop = 0;
+                        }, 2000);
+                    }
+                }
+            };
+            
+            // Auto scroll muy lento
+            setInterval(autoScroll, 100);
+            
+            // Parar auto scroll cuando el usuario hace scroll
+            chatList.addEventListener('scroll', () => {
+                isScrolling = true;
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 3000);
+            });
+        });
+
+        // Animación de badges pulsantes
+        const badges = document.querySelectorAll('.unread-badge');
+        badges.forEach((badge, index) => {
+            if (parseInt(badge.textContent) > 50) {
+                badge.style.animation = `pulse 2s infinite ${index * 0.2}s`;
+            }
+        });
+
+        // Efecto hover en botones
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Función para scroll suave a la sección de pasos
+        function scrollToSteps() {
+            const stepsSection = document.querySelector('.steps-container');
+            if (stepsSection) {
+                stepsSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+                
+                // Añadir animación de destaque
+                const stepCards = document.querySelectorAll('.step-card');
+                stepCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.animation = 'none';
+                        setTimeout(() => {
+                            card.style.animation = 'fadeInUp 0.6s ease-out both, pulse 0.5s ease-out';
+                        }, 10);
+                    }, index * 100);
+                });
+            }
+        }
+
+        // Animación al hacer scroll (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observar las tarjetas de pasos
+        document.querySelectorAll('.step-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
